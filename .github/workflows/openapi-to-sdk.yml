@@ -1,0 +1,40 @@
+name: Sync OpenAPI to SDK
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  sync-openapi:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Generate OpenAPI
+        run: cargo run --bin openapi-gen
+
+      - name: Checkout SDK repo
+        uses: actions/checkout@v6
+        with:
+          repository: nordwinder/test-server-sdk
+          path: sdk
+          token: ${{ secrets.SDK_REPO_TOKEN }}
+
+      - name: Copy OpenAPI
+        run: cp openapi.yaml sdk/
+
+      - name: Create or update PR
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.SDK_REPO_TOKEN }}
+          path: sdk
+          branch: update-openapi
+          base: main
+          commit-message: "ci(openapi): update OpenAPI spec"
+          title: "Update OpenAPI spec"
+          body: |
+            Automated OpenAPI update from backend.
+
+            Source repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}

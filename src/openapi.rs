@@ -1,31 +1,18 @@
-use serde::{Deserialize, Serialize};
-use utoipa::{OpenApi, ToSchema};
-
-#[derive(Serialize, Deserialize, ToSchema)]
-pub struct HelloResponse {
-    pub message: String,
-}
-
-#[utoipa::path(
-    get,
-    path = "/hello",
-    tag = "Test",
-    responses(
-        (status = 200, description = "Hello world response", body = HelloResponse)
-    )
-)]
-pub async fn hello_handler() {}
+use utoipa::OpenApi;
 
 #[derive(OpenApi)]
 #[openapi(
+    info(
+        version = "0.1.0",
+        title = "Test server",
+        license(identifier = "MIT"),
+    ),
     paths(
-        hello_handler
+        crate::api::hello,
     ),
-    components(
-        schemas(HelloResponse)
-    ),
+    components(),
     tags(
         (name = "Test", description = "Test endpoints")
-    )
+    ),
 )]
 pub struct ApiDoc;
