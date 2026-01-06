@@ -1,7 +1,7 @@
 use actix_web::{get, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
-//
+
 #[derive(Serialize, Deserialize, ToSchema)]
 pub struct HelloResponse {
     pub message: String,
