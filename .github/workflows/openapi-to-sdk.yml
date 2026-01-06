@@ -9,14 +9,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - name: Checkout backend
+        uses: actions/checkout@v6
 
       - name: Install Rust toolchain 1.89
         run: |
           rustup toolchain install 1.89
           rustup default 1.89
 
-      - name: Generate OpenAPI
+      - name: Generate openapi.yaml
         run: cargo run --bin openapi_gen
 
       - name: Checkout SDK repo
@@ -24,8 +25,9 @@ jobs:
         with:
           repository: nordwinder/test-server-sdk
           path: sdk
+          persist-credentials: false
 
-      - name: Copy OpenAPI
+      - name: Copy openapi.yaml
         run: cp openapi.yaml sdk/
 
       - name: Create or update PR
