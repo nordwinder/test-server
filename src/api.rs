@@ -5,6 +5,7 @@ use utoipa::ToSchema;
 #[derive(Serialize, Deserialize, ToSchema)]
 pub struct HelloResponse {
     pub message: String,
+    pub number: i32,
 }
 
 #[utoipa::path(
@@ -19,5 +20,6 @@ pub struct HelloResponse {
 async fn hello() -> impl Responder {
     HttpResponse::Ok().json(HelloResponse {
         message: "Hello, world!".to_string(),
+        number: 42,
     })
 }
