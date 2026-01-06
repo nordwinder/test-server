@@ -24,7 +24,6 @@ jobs:
         with:
           repository: nordwinder/test-server-sdk
           path: sdk
-          token: ${{ secrets.SDK_REPO_TOKEN }}
 
       - name: Copy OpenAPI
         run: cp openapi.yaml sdk/
