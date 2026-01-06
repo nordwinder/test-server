@@ -1,3 +1,7 @@
+# SDK_REPO_TOKEN should have the following accesses to SDK repo
+# Contents: Read & Write
+# Pull requests: Read & Write
+
 name: Sync OpenAPI to SDK
 
 on:
@@ -31,7 +35,7 @@ jobs:
         run: cp openapi.yaml sdk/
 
       - name: Create or update PR
-        uses: peter-evans/create-pull-request@v6
+        uses: peter-evans/create-pull-request@v8
         with:
           token: ${{ secrets.SDK_REPO_TOKEN }}
           path: sdk
