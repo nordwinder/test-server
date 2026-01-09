@@ -7,6 +7,7 @@ pub struct HelloResponse {
     pub message: String,
     //pub number: i32,
     pub value: String,
+    pub some: bool,
 }
 
 #[utoipa::path(
@@ -23,5 +24,6 @@ async fn hello() -> impl Responder {
         message: "Hello, world!".to_string(),
         //number: 42,
         value: "pupupu".to_string(),
+        some: true,
     })
 }
