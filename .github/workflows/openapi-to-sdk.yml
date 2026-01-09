@@ -41,8 +41,8 @@ jobs:
           path: sdk
           branch: update-openapi
           base: main
-          commit-message: "ci(openapi): update OpenAPI spec"
-          title: "Update OpenAPI spec"
+          commit-message: "Update OpenAPI specification"
+          title: "Update OpenAPI specification"
           body: |
             Automated OpenAPI update from backend.
 
