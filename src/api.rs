@@ -2,10 +2,10 @@ use actix_web::{get, HttpResponse, Responder};
 use serde::{Deserialize, Serialize};
 use utoipa::ToSchema;
 
-#[derive(Serialize, Deserialize, ToSchema)]
+#[derive(Serialize, Deserialize, ToSchema, Default)]
 pub struct HelloResponse {
     pub message: String,
-    //pub number: i32,
+    pub number: i32,
     pub value: String,
     pub some: bool,
 }
@@ -20,10 +20,5 @@ pub struct HelloResponse {
 )]
 #[get("/hello")]
 async fn hello() -> impl Responder {
-    HttpResponse::Ok().json(HelloResponse {
-        message: "Hello, world!".to_string(),
-        //number: 42,
-        value: "pupupu".to_string(),
-        some: true,
-    })
+    HttpResponse::Ok().json(HelloResponse::default())
 }
