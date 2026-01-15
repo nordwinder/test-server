@@ -1,0 +1,40 @@
+openapi: 3.1.0
+info:
+  title: Test server
+  description: ''
+  license:
+    name: ''
+    identifier: MIT
+  version: 0.1.0
+paths:
+  /hello:
+    get:
+      tags:
+      - Test
+      operationId: hello
+      responses:
+        '200':
+          description: Hello world response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HelloResponse'
+components:
+  schemas:
+    HelloResponse:
+      type: object
+      required:
+      - message
+      - number
+      - value
+      properties:
+        message:
+          type: string
+        number:
+          type: integer
+          format: int32
+        value:
+          type: string
+tags:
+- name: Test
+  description: Test endpoints
