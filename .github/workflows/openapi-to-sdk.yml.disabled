@@ -2,12 +2,12 @@
 # Contents: Read & Write
 # Pull requests: Read & Write
 
-#name: Sync OpenAPI to SDK
-#
-#on:
-#  push:
-#    branches: [ "main" ]
-#
+name: Sync OpenAPI to SDK
+
+on:
+  push:
+    branches: [ "main" ]
+
 #jobs:
 #  sync-openapi:
 #    runs-on: ubuntu-latest
