@@ -7,9 +7,9 @@ pub struct HelloResponse {
     pub message: String,
     pub number: i32,
     pub value: String,
-    //pub some: bool,
+    pub some: bool,
 }
-
+//
 #[utoipa::path(
     get,
     path = "/hello",
