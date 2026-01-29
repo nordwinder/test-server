@@ -27,9 +27,13 @@ components:
       - message
       - qqq
       - ppp
+      - ooo
       properties:
         message:
           type: string
+        ooo:
+          type: integer
+          format: int32
         ppp:
           type: integer
           format: int32
