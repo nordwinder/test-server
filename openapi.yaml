@@ -25,9 +25,13 @@ components:
       type: object
       required:
       - message
+      - qqq
       properties:
         message:
           type: string
+        qqq:
+          type: integer
+          format: int32
 tags:
 - name: Test
   description: Test endpoints
