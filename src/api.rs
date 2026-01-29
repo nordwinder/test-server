@@ -6,7 +6,7 @@ use utoipa::ToSchema;
 pub struct HelloResponse {
     pub message: String,
     pub number: i32,
-    //pub value: String,
+    pub value: String,
     //pub some: bool,
 }
 //
