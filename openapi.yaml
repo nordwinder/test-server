@@ -26,9 +26,13 @@ components:
       required:
       - message
       - qqq
+      - ppp
       properties:
         message:
           type: string
+        ppp:
+          type: integer
+          format: int32
         qqq:
           type: integer
           format: int32

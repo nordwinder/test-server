@@ -15,10 +15,22 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
+      - name: Determine SDK base branch
+        id: sdk-branch
+        run: |
+          if git ls-remote --exit-code \
+            https://github.com/nordwinder/test-server-sdk.git \
+            refs/heads/update-openapi > /dev/null 2>&1; then
+            echo "branch=update-openapi" >> "$GITHUB_OUTPUT"
+          else
+            echo "branch=main" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Checkout SDK repo
         uses: actions/checkout@v6
         with:
           repository: nordwinder/test-server-sdk
+          ref: ${{ steps.sdk-branch.outputs.branch }}
           path: sdk
           persist-credentials: false
 
