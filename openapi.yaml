@@ -25,15 +25,8 @@ components:
       type: object
       required:
       - message
-      - number
-      - value
       properties:
         message:
-          type: string
-        number:
-          type: integer
-          format: int32
-        value:
           type: string
 tags:
 - name: Test
