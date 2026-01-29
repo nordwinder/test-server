@@ -25,18 +25,8 @@ components:
       type: object
       required:
       - message
-      - number
-      - value
-      - some
       properties:
         message:
-          type: string
-        number:
-          type: integer
-          format: int32
-        some:
-          type: boolean
-        value:
           type: string
 tags:
 - name: Test

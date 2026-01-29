@@ -1,12 +1,8 @@
 name: Update OpenAPI on PR
 
 on:
-  pull_request:
-    types: [ opened, synchronize, reopened ]
-
-permissions:
-  contents: write
-  pull-requests: write
+  push:
+    branches: [ "main" ]
 
 jobs:
   openapi:
@@ -19,30 +15,47 @@ jobs:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
 
-      - name: Install Rust toolchain 1.89
-        run: |
-          rustup toolchain install 1.89
-          rustup default 1.89
+      - name: Checkout SDK repo
+        uses: actions/checkout@v6
+        with:
+          repository: nordwinder/test-server-sdk
+          path: sdk
+          persist-credentials: false
 
-      - name: Generate OpenAPI
-        run: |
-          cargo run --bin openapi_gen
+      - name: Copy openapi.yaml
+        run: cp openapi.yaml sdk/
 
-      - name: Check diff
-        id: diff
+      - name: Add changeset file
+        working-directory: sdk
+        env:
+          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_MSG_RAW: ${{ github.event.head_commit.message }}
         run: |
-          if git diff --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
+          if git diff --quiet -- openapi.yaml; then
+            echo "OpenAPI spec not changed, skipping changeset"
+            exit 0
           fi
+          mkdir -p .changeset
+          COMMIT_MSG="${COMMIT_MSG_RAW%%$'\n'*}"
+          {
+            echo '---'
+            echo '"@crypticdot/defituna-api": patch'
+            echo '---'
+            echo
+            printf '%s\n' "$COMMIT_MSG"
+          } > ".changeset/openapi-${COMMIT_SHA::10}.md"
 
-      - name: Commit and push OpenAPI
-        if: steps.diff.outputs.changed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+      - name: Create or update PR
+        uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725
+        with:
+          token: ${{ secrets.SDK_REPO_TOKEN }}
+          path: sdk
+          branch: update-openapi
+          base: main
+          commit-message: "Update OpenAPI specification"
+          title: "Update OpenAPI specification"
+          body: |
+            Automated OpenAPI update from backend.
 
-          git add openapi.yaml
-          git commit -m "chore: regenerate openapi.yaml"
-          git push
+            Source repository: ${{ github.repository }}
+            Commit: ${{ github.sha }}
